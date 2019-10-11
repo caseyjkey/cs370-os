@@ -9,7 +9,7 @@ DEFINES       = -DDEBUG -DHALF
 
 # Compiler and loader commands and flags
 GCC             = gcc
-GCC_FLAGS       = -g -std=gnu99 -Wall -c -lrt
+GCC_FLAGS       = -g -std=gnu99 -Wall -c -lrt 
 LD_FLAGS        = -g -std=gnu99 -Wall -lrt
 
 # Compile .c files to .o files
@@ -18,19 +18,19 @@ LD_FLAGS        = -g -std=gnu99 -Wall -lrt
 
 # Target is the executable
 Red: Red.c
-	$(GCC) -o Red $(LD_FLAGS) Red.c 
+	$(GCC) Red.c  -o Red $(LD_FLAGS) 
 
 Blue: Blue.c 
-	$(GCC) -o Blue $(LD_FLAGS) Blue.c
+	$(GCC) Blue.c -o Blue $(LD_FLAGS)
 
 Green: Green.c
-	$(GCC) -o Green $(LD_FLAGS) Green.c
+	$(GCC) Green.c -o Green $(LD_FLAGS)
 
 FileReader:
-	$(GCC) -o FileReader $(LD_FLAGS) FileReader.c
+	$(GCC) FileReader.c -o FileReader $(LD_FLAGS)
 
 Starter: Starter.c
-	$(GCC) -o Starter $(LD_FLAGS) Starter.c
+	$(GCC) Starter.c -o Starter $(LD_FLAGS)
 
 build: Red Blue Green FileReader Starter
 
