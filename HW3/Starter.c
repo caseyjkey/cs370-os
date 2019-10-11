@@ -13,6 +13,17 @@
 #define IMAGE_WIDTH 76
 
 
+void convertArrToString(char** strings){
+	int coded;
+        char codedString[30];    
+        char allCodedStrings[60000]; 
+        // Store the coded input number into coded         
+	for(int i = 0; i < 5778; i++) {
+		strcat(allCodedStrings, strcat(strings[i], " "));
+        }
+	printf("result: %s", allCodedStrings);
+	strings[0] = allCodedStrings;
+}
 
 
 int main(int argc, const char *argv[]) {
@@ -95,20 +106,28 @@ int main(int argc, const char *argv[]) {
 			//Create child process and record pid for waiting later
 			cpids[j] = fork();
 			// If we are the child, execute new program to decode
+			printf("before: %s", coded_values[0]);
+			convertArrToString(coded_values);
 			if(cpids[j] == 0)
-				execlp("./Red", "Red", coded_values, NULL);	
+				execlp("./Red", "Red", codedString[0], NULL);	
+			else
+				wait(&result);//break;
 		}
 		else if(j == 1) {
 			coded_values[5776] = "Shared_mem_green";
 			cpids[j] = fork();
 			if(cpids[j] == 0)
 				execlp("./Green", "Green", coded_values, NULL);	
+			else
+				break;
 		}
 		else {
 			coded_values[5776] = "Shared_mem_blue";
 			cpids[j] = fork();
 			if(cpids[j] == 0)
 				execlp("./Blue", "Blue", coded_values, NULL);	
+			else
+				break;
 		}
 			
 	}
@@ -138,6 +157,7 @@ int main(int argc, const char *argv[]) {
 	*/
 	return 0;
 }
+
 
 //static int findThreeValues(int coded, int &red, int &green, int &blue);
 
