@@ -42,4 +42,4 @@ clean:
 	rm -f $(OBJS) *~ $(EXE)
 
 package:
-	tar -cvzf Casey-Key-HW3.tar *.c *.h *.txt Makefile
+	tar -cvzf Casey-Key-HW3.tar *.c *.txt Makefile

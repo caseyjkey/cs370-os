@@ -3,19 +3,25 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/mman.h>
+#include <fcntl.h>
+
 
 int main(int argc, char *argv[]) {
-	for(int i = 0; i < 12; i++)
-		printf(" yo %s\n", argv[1]);
+	// Let gets that shared memory file descriptor
+	int red_fd = shm_open(argv[argc-1], O_CREAT | O_RDWR, 0666);
+	// Now let's point to it, need this to access the shm
+	char *red_shmPtr = mmap(0, 60000, PROT_READ | PROT_WRITE, MAP_SHARED, red_fd, 0);
+
 	int codedValue;        
 	char decodedString[30];        
 	char allDecodedStrings[60000];        
 	// Get PID for console output
 	const pid_t pid = getpid();
-	/*
-	for(int i = 0; i < 5777; i++) {                
+	
+	for(int i = 0; i < 5776; i++) {                
 		// Store the coded input number into codedValue
-		codedValue = atoi(argv[argc][i]);
+		codedValue = atoi(argv[i]);
 		
 		printf("Red[%d]: Received coded value %d\n", pid, codedValue);
 
@@ -28,7 +34,13 @@ int main(int argc, char *argv[]) {
 		strcat(allDecodedStrings, decodedString);      
 	}
 
-	*/
+	// Remove last space and replace with string terminator
+	char *lastSpace = strrchr(allDecodedStrings, ' ');
+	*lastSpace = '\0';
+
+	// Put our finished string into shared memory!
+	memcpy(red_shmPtr, allDecodedStrings, 60000);
+
 	// Return 0 for success
 	return 0;
 }

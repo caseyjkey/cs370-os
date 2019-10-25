@@ -104,7 +104,7 @@ def PBS(processes_df):
         
         # Include time when IDLE
         if process.arrival > currentTime:
-            process.wait_start = currentTime
+            process.wait(currentTime)
             process.finish_idle(process.arrival)
             currentTime = process.arrival
 
